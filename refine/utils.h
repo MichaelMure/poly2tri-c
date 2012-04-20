@@ -33,10 +33,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __POLY2TRI_C_REFINE_UTILS_H__
-#define	__POLY2TRI_C_REFINE_UTILS_H__
+#ifndef __P2TC_REFINE_UTILS_H__
+#define __P2TC_REFINE_UTILS_H__
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 extern "C"
 {
 #endif
@@ -47,7 +47,7 @@ extern "C"
    * http://developer.gnome.org/glib/2.29/glib-Hash-Tables.html
    */
 
-  typedef GHashTable     P2tRHashSet;
+  typedef GHashTable     P2trHashSet;
   typedef GHashTableIter P2trHashSetIter;
 
 #define p2tr_hash_set_set_new(hash_func, equal_func, destroy) g_hash_table_new_full ((hash_func), (equal_func), (destroy),NULL)
@@ -64,8 +64,8 @@ extern "C"
 
 #define foreach(iter,list) for ((iter) = (list); (iter) != NULL; (iter) = (iter)->next)
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
-#endif	/* UTILS_H */
+#endif
