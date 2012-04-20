@@ -1,7 +1,7 @@
 #include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../refine/triangulation.h"
+#include <refine/triangulation.h>
 #include "mesh-render.h"
 
 /* Most computations using the Barycentric Coordinates are Based on

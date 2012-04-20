@@ -33,13 +33,13 @@
 #include <stdio.h>
 #include <glib.h>
 
-#include "poly2tri.h"
+#include <p2t/poly2tri.h>
 
-#include "refine/triangulation.h"
-#include "render/svg-plot.h"
-#include "refine/refine.h"
+#include <refine/triangulation.h>
+#include <render/svg-plot.h>
+#include <refine/refine.h>
 
-#include "render/mesh-render.h"
+#include <render/mesh-render.h>
 
 #include <string.h>
 

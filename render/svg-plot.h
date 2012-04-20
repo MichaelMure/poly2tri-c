@@ -41,7 +41,7 @@ extern "C"
 {
 #endif
 
-#include "../refine/refine.h"
+#include <refine/refine.h>
 
 #define PLOT_LINE_WIDTH 0.40
 #define ARROW_SIDE_ANGLE (M_PI / 180 * 30)

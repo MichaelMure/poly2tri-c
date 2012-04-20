@@ -41,7 +41,7 @@ extern "C"
 #endif
 
 #include <glib.h>
-#include "../common/utils.h"
+#include "../p2t/common/utils.h"
 #include "utils.h"
 #include <stdio.h>
 

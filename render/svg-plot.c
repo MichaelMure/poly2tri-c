@@ -3,7 +3,7 @@
 #include <math.h>
 #include <glib.h>
 
-#include "../refine/triangulation.h"
+#include <refine/triangulation.h>
 
 #include "svg-plot.h"
 

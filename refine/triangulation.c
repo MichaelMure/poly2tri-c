@@ -1,8 +1,8 @@
 #include <math.h>
 
-#include "../common/utils.h"
+#include <p2t/common/utils.h>
 #include "triangulation.h"
-#include "../poly2tri.h"
+#include <p2t/poly2tri.h>
 
 static void p2tr_edge_init (P2tREdge *self, P2tRPoint *start, P2tRPoint *end);
 
