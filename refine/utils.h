@@ -64,6 +64,10 @@ extern "C"
 
 #define foreach(iter,list) for ((iter) = (list); (iter) != NULL; (iter) = (iter)->next)
 
+#define p2tr_exception_numeric      g_error
+#define p2tr_exception_programmatic g_error
+#define p2tr_exception_geometric    g_error
+
 #ifdef __cplusplus
 }
 #endif
