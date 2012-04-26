@@ -22,9 +22,20 @@ struct P2trPoint_
 
   /** A count of references to the point */
   guint        refcount;
+  
+  /** The triangular mesh containing this point */
+  P2trMesh    *mesh;
 };
 
 P2trPoint*  p2tr_point_new                  (const P2trVector2 *c);
+
+void        p2tr_point_ref                  (P2trPoint *self);
+
+void        p2tr_point_unref                (P2trPoint *self);
+
+void        p2tr_point_free                 (P2trPoint *self);
+
+void        p2tr_point_remove               (P2trPoint *self);
 
 P2trEdge*   p2tr_point_get_edge_to          (P2trPoint *start,
                                              P2trPoint *end);
@@ -45,8 +56,6 @@ gboolean    p2tr_point_is_fully_in_domain   (P2trPoint *self);
 
 gboolean    p2tr_point_has_constrained_edge (P2trPoint *self);
 
-void        p2tr_point_ref                  (P2trPoint *self);
-
-void        p2tr_point_unref                (P2trPoint *self);
+P2trMesh*   p2tr_point_get_mesh             (P2trPoint *self);
 
 #endif

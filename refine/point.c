@@ -8,19 +8,34 @@ p2tr_point_new (const P2trVector2 *c)
   P2trPoint *self = g_slice_new (P2trPoint);
   
   p2tr_vector2_copy (&self->c, c);
+  self->mesh = NULL;
   self->outgoing_edges = NULL;
-  
+  self->refcount = 1;
+
   return self;
 }
 
-static void
-p2tr_point_delete (P2trPoint *self)
+void
+p2tr_point_remove (P2trPoint *self)
 {
-  GList *iter;
-  for (iter = self->outgoing_edges; iter != NULL; iter = iter->next)
-    p2tr_edge_unref ((P2trEdge*) iter->data);
+  /* We can not iterate over the list of edges while removing the edges,
+   * because the removal action will modify the list. Instead we will
+   * simply look at the first edge untill the list is emptied. */
+  while (self->outgoing_edges != NULL)
+    p2tr_edge_remove ((P2trEdge*) self->outgoing_edges->data);
 
-  g_list_free (self->outgoing_edges);
+  if (self->mesh != NULL)
+  {
+    p2tr_mesh_on_point_removed (self->mesh, self);
+    p2tr_mesh_unref (self->mesh);
+    self->mesh = NULL;
+  }
+}
+
+void
+p2tr_point_free (P2trPoint *self)
+{
+  p2tr_point_remove (self);
   g_slice_free (P2trPoint, self);
 }
 
@@ -150,5 +165,11 @@ void
 p2tr_point_unref (P2trPoint *self)
 {
   if (--self->refcount == 0)
-    p2tr_point_delete (self);
+    p2tr_point_free (self);
+}
+
+P2trMesh*
+p2tr_point_get_mesh (P2trPoint *self)
+{
+  return self->mesh;
 }

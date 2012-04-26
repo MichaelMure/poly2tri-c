@@ -32,17 +32,21 @@ P2trTriangle* p2tr_mesh_new_triangle2   (P2trMesh *mesh,
                                          P2trEdge *BC,
                                          P2trEdge *CA);
 
-gboolean      p2tr_mesh_remove_point    (P2trMesh *mesh,
-                                         P2trEdge *edge);
+gboolean      p2tr_mesh_on_point_removed    (P2trMesh  *mesh,
+                                             P2trPoint *point);
 
-gboolean      p2tr_mesh_remove_edge     (P2trMesh *mesh,
-                                         P2trEdge *edge);
+gboolean      p2tr_mesh_on_edge_removed     (P2trMesh *mesh,
+                                             P2trEdge *edge);
 
-gboolean      p2tr_mesh_remove_triangle (P2trMesh     *mesh,
-                                         P2trTriangle *triangle);
+gboolean      p2tr_mesh_on_triangle_removed (P2trMesh     *mesh,
+                                             P2trTriangle *triangle);
 
 void          p2tr_mesh_clear           (P2trMesh *mesh);
 
 void          p2tr_mesh_destroy         (P2trMesh *mesh);
+
+void          p2tr_mesh_unref           (P2trMesh *mesh);
+
+void          p2tr_mesh_ref             (P2trMesh *mesh);
 
 #endif

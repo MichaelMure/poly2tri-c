@@ -28,6 +28,15 @@ p2tr_vector2_sub (const P2trVector2 *a,
   dest->y = a->y - b->y;
 }
 
+void
+p2tr_vector2_center (const P2trVector2 *a,
+                     const P2trVector2 *b,
+                     P2trVector2       *dest)
+{
+  dest->x = (a->x + b->x) * 0.5;
+  dest->y = (a->y + b->y) * 0.5;
+}
+
 gdouble
 p2tr_vector2_norm (const P2trVector2 *v)
 {
