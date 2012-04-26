@@ -40,6 +40,11 @@ P2trEdge*   p2tr_triangle_get_opposite_edge  (P2trTriangle *self,
 gdouble     p2tr_triangle_get_angle_at       (P2trTriangle *self,
                                               P2trPoint    *p);
 
-gdouble    p2tr_triangle_smallest_non_constrained_angle (P2trTriangle *self);
+gdouble     p2tr_triangle_smallest_non_constrained_angle (P2trTriangle *self);
 
+void        p2tr_triangle_get_circum_circle (P2trTriangle *self,
+                                             P2trCircle   *circle);
+
+P2trInCircle p2tr_triangle_circumcircle_contains_point (P2trTriangle *self,
+                                                        P2trVector2  *pt);
 #endif
