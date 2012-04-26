@@ -50,10 +50,13 @@ extern "C"
   typedef GHashTable     P2trHashSet;
   typedef GHashTableIter P2trHashSetIter;
 
-#define p2tr_hash_set_set_new(hash_func, equal_func, destroy) g_hash_table_new_full ((hash_func), (equal_func), (destroy),NULL)
+#define p2tr_hash_set_new_default() g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL)
+#define p2tr_hash_set_new(hash_func, equal_func, destroy) g_hash_table_new_full ((hash_func), (equal_func), (destroy),NULL)
 #define p2tr_hash_set_insert(set,element) g_hash_table_insert ((set), (element), (element))
 #define p2tr_hash_set_contains(set,element) g_hash_table_lookup_extended ((set), (element), NULL, NULL)
 #define p2tr_hash_set_remove(set,element) g_hash_table_remove ((set), (element))
+#define p2tr_hash_set_remove_all(set) g_hash_table_remove_all ((set))
+#define p2tr_hash_set_free(set) g_hash_table_destroy(set)
 
 #define p2tr_hash_set_iter_init(iter,hash_set) g_hash_table_iter_init ((iter),(hash_set))
 #define p2tr_hash_set_iter_next(iter,val) g_hash_table_iter_next ((iter),(val),NULL)

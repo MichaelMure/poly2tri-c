@@ -63,14 +63,16 @@ p2tr_matrix_det4 (gdouble a00, gdouble a01, gdouble a02, gdouble a03,
  *
  *    http://www.blackpawn.com/texts/pointinpoly/default.html
  */
-#define INTRIANGLE_EPSILON 0e-9
-
-P2trInTriangle
-p2tr_math_intriangle(const P2trVector2 *A,
-                     const P2trVector2 *B,
-                     const P2trVector2 *C,
-                     const P2trVector2 *P)
+void
+p2tr_math_triangle_barcycentric (const P2trVector2 *A,
+                                 const P2trVector2 *B,
+                                 const P2trVector2 *C,
+                                 const P2trVector2 *P,
+                                 gdouble           *u,
+                                 gdouble           *v)
 {
+  gdouble dot00, dot01, dot02, dot11, dot12, invDenom;
+
   /* Compute the vectors offsetted so that A is the origin */
   P2trVector2 v0, v1, v2;
   p2tr_vector2_sub(C, A, &v0);
@@ -78,17 +80,30 @@ p2tr_math_intriangle(const P2trVector2 *A,
   p2tr_vector2_sub(P, A, &v2);
 
   /* Compute dot products */
-  double dot00 = VECTOR2_DOT(&v0, &v0);
-  double dot01 = VECTOR2_DOT(&v0, &v1);
-  double dot02 = VECTOR2_DOT(&v0, &v2);
-  double dot11 = VECTOR2_DOT(&v1, &v1);
-  double dot12 = VECTOR2_DOT(&v1, &v2);
+  dot00 = VECTOR2_DOT(&v0, &v0);
+  dot01 = VECTOR2_DOT(&v0, &v1);
+  dot02 = VECTOR2_DOT(&v0, &v2);
+  dot11 = VECTOR2_DOT(&v1, &v1);
+  dot12 = VECTOR2_DOT(&v1, &v2);
 
   /* Compute barycentric coordinates */
-  double invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
-  double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
-  double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+  invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+  *u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+  *v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+}
 
+#define INTRIANGLE_EPSILON 0e-9
+
+P2trInTriangle
+p2tr_math_intriangle (const P2trVector2 *A,
+                      const P2trVector2 *B,
+                      const P2trVector2 *C,
+                      const P2trVector2 *P)
+{
+  gdouble u, v;
+
+  p2tr_math_triangle_barcycentric(A, B, C, P, &u, &v);
+  
   /* Check if point is in triangle - i.e. whether (u + v) < 1 and both
    * u and v are positive */
   if ((u >= INTRIANGLE_EPSILON) && (v >= INTRIANGLE_EPSILON) && (u + v < 1 - INTRIANGLE_EPSILON))

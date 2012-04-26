@@ -19,6 +19,27 @@ typedef enum
   P2TR_INTRIANGLE_IN = 1
 } P2trInTriangle;
 
+/**
+ * Return the barycentric coordinates of a point inside a triangle. This
+ * means that the computation returns @ref u and @ref v so that the
+ * following equation is satisfied:
+ * {{{ AP = u * AB + v * AC }}}
+ *
+ * @param[in] A The first point of the triangle
+ * @param[in] B The second point of the triangle
+ * @param[in] C The third point of the triangle
+ * @param[in] P The point whose barycentric coordinates should be
+ *              computed
+ * @param[out] u The first barycentric coordinate
+ * @param[out] v The second barycentric coordinate
+ */
+void p2tr_math_triangle_barcycentric (const P2trVector2 *A,
+                                      const P2trVector2 *B,
+                                      const P2trVector2 *C,
+                                      const P2trVector2 *P,
+                                      gdouble           *u,
+                                      gdouble           *v);
+
 P2trInTriangle p2tr_math_intriangle (const P2trVector2 *A,
                                      const P2trVector2 *B,
                                      const P2trVector2 *C,
