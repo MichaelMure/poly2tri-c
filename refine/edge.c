@@ -10,13 +10,13 @@ p2tr_edge_init (P2trEdge  *self,
                 gboolean   constrained,
                 P2trEdge  *mirror)
 {
-  self->angle       = atan2 (end->y - start->y, end->x - start->x);
+  self->angle       = atan2 (end->c.y - start->c.y,
+                          end->c.x - start->c.x);
   self->constrained = constrained;
   self->delaunay    = FALSE;
   self->end         = end;
   self->mirror      = mirror;
   self->refcount    = 0;
-  self->removed     = FALSE;
   self->tri         = NULL;
 }
 
@@ -107,8 +107,8 @@ p2tr_edge_get_diametral_circle (P2trEdge   *self,
 {
   P2trVector2 radius;
   
-  p2tr_vector2_center (self->end, P2TR_EDGE_START(self), &circle->center);
-  p2tr_vector2_sub (self->end, &circle->center, &radius);
+  p2tr_vector2_center (&self->end->c, &P2TR_EDGE_START(self)->c, &circle->center);
+  p2tr_vector2_sub (&self->end->c, &circle->center, &radius);
 
   circle->radius = p2tr_vector2_norm (&radius);
 }

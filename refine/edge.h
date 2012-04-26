@@ -2,6 +2,7 @@
 #define __P2TC_REFINE_EDGE_H__
 
 #include <glib.h>
+#include "circle.h"
 #include "triangulation.h"
 
 /**
@@ -42,7 +43,7 @@ struct P2trEdge_
 
 #define P2TR_EDGE_START(E) ((E)->mirror->end)
 
-void        p2tr_edge_new                  (P2trPoint *start,
+P2trEdge*   p2tr_edge_new                  (P2trPoint *start,
                                             P2trPoint *end,
                                             gboolean   constrained);
 
@@ -54,7 +55,7 @@ void        p2tr_edge_free                 (P2trEdge *self);
 
 void        p2tr_edge_remove               (P2trEdge *self);
 
-void        p2tr_edge_get_mesh             (P2trEdge *self);
+P2trMesh*   p2tr_edge_get_mesh             (P2trEdge *self);
 
 gboolean    p2tr_edge_is_removed           (P2trEdge *self);
 #endif
