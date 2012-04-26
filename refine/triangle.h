@@ -10,46 +10,36 @@
  */
 struct P2trTriangle_
 {
-  /** The end point of this mesh */
-  P2trPoint    *end;
-
-  /** The edge going in the opposite direction from this edge */
-  P2trEdge     *mirror;
+  P2trEdge* edges[3];
   
-  /** Is this a constrained edge? */
-  gboolean      constrained;
-  
-  /** The triangle where this edge goes clockwise along its outline */
-  P2trTriangle *tri;
-
-  /**
-   * The angle of the direction of this edge. Although it can be
-   * computed anytime using atan2 on the vector of this edge, we cache
-   * it here since it's heavily used and the computation is expensive.
-   * The angle increases as we go CCW, and it's in the range [-PI, +PI]
-   */
-  gdouble       angle;
-  
-  /**
-   * Is this edge a delaunay edge? This field is used by the refinement
-   * algorithm and should not be used elsewhere!
-   */
-  gboolean      delaunay;
-
-  /** A count of references to the edge */
-  guint         refcount;
-  
-  /**
-   * Is this edge still present in the triangulation? Or maybe it is
-   * just pending for the last unref?
-   */
-  gboolean      removed;
+  guint refcount;
 };
 
-#define P2TR_EDGE_START(E) ((E)->mirror->end)
+P2trTriangle*   p2tr_triangle_new            (P2trEdge *AB,
+                                              P2trEdge *BC,
+                                              P2trEdge *CA);
 
-void p2tr_edge_ref    (P2trEdge *self);
-void p2tr_edge_unref  (P2trEdge *self);
+void        p2tr_triangle_ref                (P2trTriangle *self);
 
-void p2tr_edge_remove (P2trEdge *self);
+void        p2tr_triangle_unref              (P2trTriangle *self);
+
+void        p2tr_triangle_free               (P2trTriangle *self);
+
+void        p2tr_triangle_remove             (P2trTriangle *self);
+
+P2trMesh*   p2tr_triangle_get_mesh           (P2trTriangle *self);
+
+gboolean    p2tr_triangle_is_removed         (P2trTriangle *self);
+
+P2trPoint*  p2tr_triangle_get_opposite_point (P2trTriangle *self,
+                                              P2trEdge     *e);
+
+P2trEdge*   p2tr_triangle_get_opposite_edge  (P2trTriangle *self,
+                                              P2trPoint    *p);
+
+gdouble     p2tr_triangle_get_angle_at       (P2trTriangle *self,
+                                              P2trPoint    *p);
+
+gdouble    p2tr_triangle_smallest_non_constrained_angle (P2trTriangle *self);
+
 #endif

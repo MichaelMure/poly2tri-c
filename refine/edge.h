@@ -58,4 +58,12 @@ void        p2tr_edge_remove               (P2trEdge *self);
 P2trMesh*   p2tr_edge_get_mesh             (P2trEdge *self);
 
 gboolean    p2tr_edge_is_removed           (P2trEdge *self);
+
+gdouble     p2tr_edge_get_length           (P2trEdge* self);
+
+gdouble     p2tr_edge_get_length_squared   (P2trEdge* self);
+
+gdouble     p2tr_edge_angle_between        (P2trEdge *e1,
+                                            P2trEdge *e2);
+
 #endif

@@ -135,6 +135,15 @@ p2tr_edge_get_diametral_circle (P2trEdge   *self,
 //        this.mirror._p2tr_edge_remove(t, true);
 //}
 
+P2trMesh*
+p2tr_edge_get_mesh (P2trEdge *self)
+{
+  if (self->end != NULL)
+    return self->end->mesh;
+  else
+    return NULL;
+}
+
 gdouble
 p2tr_edge_get_length(P2trEdge* self)
 {
