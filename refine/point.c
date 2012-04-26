@@ -5,9 +5,16 @@
 P2trPoint*
 p2tr_point_new (const P2trVector2 *c)
 {
+  return p2tr_point_new2 (c->x, c->y);
+}
+
+P2trPoint*
+p2tr_point_new2 (gdouble x, gdouble y)
+{
   P2trPoint *self = g_slice_new (P2trPoint);
   
-  p2tr_vector2_copy (&self->c, c);
+  self->c.x = x;
+  self->c.y = y;
   self->mesh = NULL;
   self->outgoing_edges = NULL;
   self->refcount = 1;
@@ -39,12 +46,13 @@ p2tr_point_free (P2trPoint *self)
   g_slice_free (P2trPoint, self);
 }
 
-static P2trEdge*
-_p2tr_point_existing_edge_to (P2trPoint* self, P2trPoint *end)
+P2trEdge*
+p2tr_point_has_edge_to (P2trPoint *start,
+                        P2trPoint *end)
 {
   GList *iter;
   
-  for (iter = self->outgoing_edges; iter != NULL; iter = iter->next)
+  for (iter = start->outgoing_edges; iter != NULL; iter = iter->next)
     {
       P2trEdge *edge = (P2trEdge*) iter->data;
       if (edge->end == end)
@@ -58,7 +66,7 @@ P2trEdge*
 p2tr_point_get_edge_to (P2trPoint *start,
                         P2trPoint *end)
 {
-    P2trEdge* result = _p2tr_point_existing_edge_to (start, end);
+    P2trEdge* result = p2tr_point_has_edge_to (start, end);
     if (result == NULL)
       p2tr_exception_programmatic ("Tried to get an edge that doesn't exist!");
     else

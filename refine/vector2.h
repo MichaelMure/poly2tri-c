@@ -14,6 +14,21 @@ typedef struct {
   gdouble y;
 } P2trVector2;
 
+#define P2TR_VECTOR2_LEN_SQ2(X, Y)              \
+    ((X) * (X) + (Y) * (Y))
+
+#define P2TR_VECTOR2_LEN_SQ(V)                  \
+    (P2TR_VECTOR2_LEN_SQ2((V)->x, (V)->y))
+
+#define P2TR_VECTOR2_DOT(V1,V2)                 \
+    ((V1)->x * (V2)->x + (V1)->y * (V2)->y)
+
+#define P2TR_VECTOR2_DISTANCE_SQ2(X1,Y1,X2,Y2)  \
+    (P2TR_VECTOR2_LEN_SQ2((X1) - (X2), (Y1) - (Y2)))
+
+#define P2TR_VECTOR2_DISTANCE_SQ(V1,V2)         \
+    (P2TR_VECTOR2_DISTANCE_SQ2((V1)->x, (V1)->y, (V2)->x, (V2)->y))
+
 /** Compute the dot product of two vectors */
 gdouble       p2tr_vector2_dot       (const P2trVector2 *a, const P2trVector2 *b);
 

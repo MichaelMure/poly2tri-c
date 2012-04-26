@@ -1,15 +1,11 @@
 #include <glib.h>
 #include "math.h"
 
-#define EDGE_LEN_SQ(X,Y)  ((X) * (X) + (Y) * (Y))
-#define VECTOR2_LEN_SQ(V) (EDGE_LEN_SQ((V)->x, (V)->y))
-#define VECTOR2_DOT(V1,V2) ((V1)->x * (V2)->x + (V1)->y * (V2)->y)
-
 gdouble
 p2tr_math_length_sq (gdouble x1, gdouble y1,
                      gdouble x2, gdouble y2)
 {
-  return EDGE_LEN_SQ (x1 - x2, y1 - y2);
+  return P2TR_VECTOR2_DISTANCE_SQ2 (x1, y1, x2, y2);
 }
 
 gdouble
@@ -80,11 +76,11 @@ p2tr_math_triangle_barcycentric (const P2trVector2 *A,
   p2tr_vector2_sub(P, A, &v2);
 
   /* Compute dot products */
-  dot00 = VECTOR2_DOT(&v0, &v0);
-  dot01 = VECTOR2_DOT(&v0, &v1);
-  dot02 = VECTOR2_DOT(&v0, &v2);
-  dot11 = VECTOR2_DOT(&v1, &v1);
-  dot12 = VECTOR2_DOT(&v1, &v2);
+  dot00 = P2TR_VECTOR2_DOT(&v0, &v0);
+  dot01 = P2TR_VECTOR2_DOT(&v0, &v1);
+  dot02 = P2TR_VECTOR2_DOT(&v0, &v2);
+  dot11 = P2TR_VECTOR2_DOT(&v1, &v1);
+  dot12 = P2TR_VECTOR2_DOT(&v1, &v2);
 
   /* Compute barycentric coordinates */
   invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
@@ -160,10 +156,10 @@ p2tr_math_incircle (const P2trVector2 *A,
    * |Dx Dy Dx^2+Dy^2 1|
    */
   gdouble result = p2tr_matrix_det4 (
-      A->x, A->y, VECTOR2_LEN_SQ(A), 1,
-      B->x, B->y, VECTOR2_LEN_SQ(B), 1,
-      C->x, C->y, VECTOR2_LEN_SQ(C), 1,
-      D->x, D->y, VECTOR2_LEN_SQ(D), 1
+      A->x, A->y, P2TR_VECTOR2_LEN_SQ(A), 1,
+      B->x, B->y, P2TR_VECTOR2_LEN_SQ(B), 1,
+      C->x, C->y, P2TR_VECTOR2_LEN_SQ(C), 1,
+      D->x, D->y, P2TR_VECTOR2_LEN_SQ(D), 1
   );
 
   if (result > INCIRCLE_EPSILON)
@@ -216,6 +212,6 @@ p2tr_math_diametral_lens_contains (const P2trVector2 *X,
   p2tr_vector2_sub(X, W, &WX);
   p2tr_vector2_sub(Y, W, &WY);
 
-  return VECTOR2_DOT(&WX, &WY)
+  return P2TR_VECTOR2_DOT(&WX, &WY)
       <= 0.5 * p2tr_vector2_norm(&WX) * p2tr_vector2_norm(&WY);
 }

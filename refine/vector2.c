@@ -6,7 +6,7 @@ gdouble
 p2tr_vector2_dot (const P2trVector2 *a,
                   const P2trVector2 *b)
 {
-  return a->x * b->x + a->y * b->y;
+  return P2TR_VECTOR2_DOT (a, b);
 }
 
 gboolean
@@ -40,7 +40,7 @@ p2tr_vector2_center (const P2trVector2 *a,
 gdouble
 p2tr_vector2_norm (const P2trVector2 *v)
 {
-  return sqrt (v->x * v->x + v->y * v->y);
+  return sqrt (P2TR_VECTOR2_LEN_SQ (v));
 }
 
 void
