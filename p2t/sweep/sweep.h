@@ -44,7 +44,7 @@
 
 struct Sweep_
 {
-//private:
+/* private: */
 P2tNodePtrArray nodes_;
 
 };

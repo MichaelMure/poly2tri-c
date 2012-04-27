@@ -3,6 +3,7 @@
 
 #include <glib.h>
 #include "vector2.h"
+#include "circle.h"
 
 gdouble   p2tr_math_length_sq  (gdouble x1,
                                 gdouble y1,
@@ -11,6 +12,20 @@ gdouble   p2tr_math_length_sq  (gdouble x1,
 
 gdouble   p2tr_math_length_sq2 (const P2trVector2 *pt1,
                                 const P2trVector2 *pt2);
+
+
+/**
+ * Find the circumscribing circle of a triangle defined by the given
+ * points.
+ * @param[in] A The first vertex of the triangle
+ * @param[in] B The second vertex of the triangle
+ * @param[in] C The third vertex of the triangle
+ * @param[out] circle The circumscribing circle of the triangle
+ */
+void      p2tr_math_triangle_circumcircle (const P2trVector2 *A,
+                                           const P2trVector2 *B,
+                                           const P2trVector2 *C,
+                                           P2trCircle    *circle);
 
 typedef enum
 {

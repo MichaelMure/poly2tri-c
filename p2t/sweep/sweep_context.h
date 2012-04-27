@@ -36,8 +36,8 @@
 #include "../common/shapes.h"
 #include "advancing_front.h"
 
-// Inital triangle factor, seed triangle will extend 30% of
-// PointSet width to both left and right.
+/* Inital triangle factor, seed triangle will extend 30% of
+ * PointSet width to both left and right. */
 #define kAlpha 0.3
 
 struct P2tSweepContextBasin_
@@ -71,21 +71,21 @@ struct SweepContext_
   P2tTrianglePtrList map_;
   P2tPointPtrArray points_;
 
-  // Advancing front
+  /** Advancing front */
   P2tAdvancingFront* front_;
-  // head point used with advancing front
+  /** head point used with advancing front */
   P2tPoint* head_;
-  // tail point used with advancing front
+  /** tail point used with advancing front */
   P2tPoint* tail_;
 
   P2tNode *af_head_, *af_middle_, *af_tail_;
 };
 
-/// Constructor
+/** Constructor */
 void p2t_sweepcontext_init (P2tSweepContext* THIS, P2tPointPtrArray polyline);
 P2tSweepContext* p2t_sweepcontext_new (P2tPointPtrArray polyline);
 
-/// Destructor
+/** Destructor */
 void p2t_sweepcontext_destroy (P2tSweepContext* THIS);
 void p2t_sweepcontext_delete (P2tSweepContext* THIS);
 
@@ -105,7 +105,7 @@ void p2t_sweepcontext_remove_node (P2tSweepContext *THIS, P2tNode* node);
 
 void p2t_sweepcontext_create_advancingfront (P2tSweepContext *THIS, P2tNodePtrArray nodes);
 
-/// Try to map a node to all sides of this triangle that don't have a neighbor
+/** Try to map a node to all sides of this triangle that don't have a neighbor */
 void p2t_sweepcontext_map_triangle_to_nodes (P2tSweepContext *THIS, P2tTriangle* t);
 
 void p2t_sweepcontext_add_to_map (P2tSweepContext *THIS, P2tTriangle* triangle);

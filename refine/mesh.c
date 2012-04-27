@@ -15,7 +15,7 @@ p2tr_mesh_new (void)
   mesh->edges = p2tr_hash_set_new_default ();
   mesh->points = p2tr_hash_set_new_default ();
   mesh->triangles = p2tr_hash_set_new_default ();
-  
+
   mesh->_is_clearing_now = FALSE;
 
   return mesh;
@@ -29,10 +29,10 @@ p2tr_mesh_new_point (P2trMesh          *self,
 
   pt->mesh = self;
   p2tr_mesh_ref (self);
-  
+
   p2tr_hash_set_insert (self->points, pt);
   p2tr_point_ref (pt);
-  
+
   return pt;
 }
 
@@ -45,9 +45,23 @@ p2tr_mesh_new_edge (P2trMesh  *self,
   P2trEdge *ed = p2tr_edge_new (start, end, constrained);
 
   p2tr_hash_set_insert (self->edges, ed);
-  p2tr_pdge_ref (ed);
-  
+  p2tr_edge_ref (ed);
+
   return ed;
+}
+
+P2trEdge*
+p2tr_mesh_new_or_existing_edge (P2trMesh  *self,
+                                P2trPoint *start,
+                                P2trPoint *end,
+                                gboolean   constrained)
+{
+  P2trEdge *result = p2tr_point_has_edge_to (start, end);
+  if (result)
+    p2tr_edge_ref (result);
+  else
+    result = p2tr_mesh_new_edge (self, start, end, constrained);
+  return result;
 }
 
 P2trTriangle*
@@ -59,8 +73,8 @@ p2tr_mesh_new_triangle (P2trMesh *self,
   P2trTriangle *tr = p2tr_triangle_new (AB, BC, CA);
 
   p2tr_hash_set_insert (self->triangles, tr);
-  p2tr_pdge_ref (tr);
-  
+  p2tr_triangle_ref (tr);
+
   return tr;
 }
 
@@ -102,9 +116,9 @@ p2tr_mesh_clear (P2trMesh *self)
 {
   P2trHashSetIter iter;
   gpointer temp;
-  
+
   self->_is_clearing_now = TRUE;
-  
+
   p2tr_hash_set_iter_init (&iter, self->triangles);
   while (p2tr_hash_set_iter_next (&iter, &temp))
     p2tr_triangle_remove ((P2trTriangle*)temp);
@@ -127,7 +141,7 @@ void
 p2tr_mesh_free (P2trMesh *self)
 {
   p2tr_mesh_clear (self);
-  
+
   p2tr_hash_set_free (self->points);
   p2tr_hash_set_free (self->edges);
   p2tr_hash_set_free (self->triangles);

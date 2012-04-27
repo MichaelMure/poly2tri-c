@@ -39,6 +39,9 @@ void        p2tr_point_free                 (P2trPoint *self);
 
 void        p2tr_point_remove               (P2trPoint *self);
 
+P2trEdge*   p2tr_point_has_edge_to          (P2trPoint *start,
+                                             P2trPoint *end);
+
 P2trEdge*   p2tr_point_get_edge_to          (P2trPoint *start,
                                              P2trPoint *end);
 

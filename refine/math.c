@@ -1,3 +1,4 @@
+#include <math.h>
 #include <glib.h>
 #include "math.h"
 
@@ -52,6 +53,46 @@ p2tr_matrix_det4 (gdouble a00, gdouble a01, gdouble a02, gdouble a03,
         - a03 * p2tr_matrix_det3 (a10, a11, a12,
                                   a20, a21, a22,
                                   a30, a31, a32);
+}
+
+void
+p2tr_math_triangle_circumcircle (const P2trVector2 *A,
+                                 const P2trVector2 *B,
+                                 const P2trVector2 *C,
+                                 P2trCircle    *circle)
+{
+  /*       | Ax Bx Cx |
+   * D = + | Ay By Cy | * 2
+   *       | +1 +1 +1 |
+   *
+   *       | Asq Bsq Csq |
+   * X = + | Ay  By  Cy  | / D
+   *       | 1   1   1   |
+   *
+   *       | Asq Bsq Csq |
+   * Y = - | Ax  Bx  Cx  | / D
+   *       | 1   1   1   |
+   */
+  gdouble Asq = P2TR_VECTOR2_LEN_SQ (A);
+  gdouble Bsq = P2TR_VECTOR2_LEN_SQ (B);
+  gdouble Csq = P2TR_VECTOR2_LEN_SQ (C);
+
+  gdouble invD = 1 / (2 * p2tr_matrix_det3 (
+      A->x, B->x, C->x,
+      A->y, B->y, C->y,
+      1,    1,    1));
+
+  circle->center.x = + p2tr_matrix_det3 (
+      Asq,  Bsq,  Csq,
+      A->y, B->y, C->y,
+      1,    1,    1) * invD;
+
+  circle->center.y = - p2tr_matrix_det3 (
+      Asq,  Bsq,  Csq,
+      A->x, B->x, C->x,
+      1,    1,    1) * invD;
+
+  circle->radius = sqrt (P2TR_VECTOR2_DISTANCE_SQ (A, &circle->center));
 }
 
 /* The point in triangle test which is implemented below is based on the
@@ -199,7 +240,7 @@ p2tr_math_diametral_circle_contains (const P2trVector2 *X,
   p2tr_vector2_sub(X, W, &WX);
   p2tr_vector2_sub(Y, W, &WY);
 
-  return VECTOR2_DOT(&WX, &WY) <= 0;
+  return P2TR_VECTOR2_DOT(&WX, &WY) <= 0;
 }
 
 gboolean

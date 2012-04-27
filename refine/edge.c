@@ -1,7 +1,10 @@
 #include <math.h>
 #include <glib.h>
+
 #include "point.h"
 #include "edge.h"
+#include "triangle.h"
+#include "mesh.h"
 
 static void
 p2tr_edge_init (P2trEdge  *self,
@@ -88,8 +91,8 @@ p2tr_edge_remove (P2trEdge *self)
   
   if (mesh != NULL)
   {
-    p2tr_mesh_on_edge_removed (self);
-    p2tr_mesh_on_edge_removed (self->mirror);
+    p2tr_mesh_on_edge_removed (mesh, self);
+    p2tr_mesh_on_edge_removed (mesh, self->mirror);
   }
 }
 
@@ -113,28 +116,6 @@ p2tr_edge_get_diametral_circle (P2trEdge   *self,
   circle->radius = p2tr_vector2_norm (&radius);
 }
 
-//public void p2tr_edge_remove(P2trTriangulation t)
-//{
-//    _p2tr_edge_remove(T, false);
-//}
-
-//private void _p2tr_edge_remove(P2trTriangulation t, bool is_mirror)
-//{
-//    if (this.removed)
-//        return;
-//
-//    t.edges.Remove(this);
-//    this.removed = true;
-//
-//    this.start.p2tr_point_remove_edge(this);
-//
-//    if (this.tri != null)
-//        this.tri.p2tr_triangle_remove(t);
-//
-//    if (! is_mirror)
-//        this.mirror._p2tr_edge_remove(t, true);
-//}
-
 P2trMesh*
 p2tr_edge_get_mesh (P2trEdge *self)
 {
@@ -147,13 +128,13 @@ p2tr_edge_get_mesh (P2trEdge *self)
 gdouble
 p2tr_edge_get_length(P2trEdge* self)
 {
-  return sqrt (p2tr_math_length_sq2 (&self->end, &P2TR_EDGE_START(self)));
+  return sqrt (p2tr_math_length_sq2 (&self->end->c, &P2TR_EDGE_START(self)->c));
 }
 
 gdouble
 p2tr_edge_get_length_squared(P2trEdge* self)
 {
-  return p2tr_math_length_sq2 (&self->end, &P2TR_EDGE_START(self));
+  return p2tr_math_length_sq2 (&self->end->c, &P2TR_EDGE_START(self)->c);
 }
 
 gdouble
@@ -189,12 +170,15 @@ p2tr_edge_angle_between(P2trEdge *e1, P2trEdge *e2)
    * [180 - 360, 180 + 360] = [-180, +540] so we may need to subtract
    * 360 to put it back in the range [-180, +180].
    */
+  gdouble result;
+  
   if (e1->end != P2TR_EDGE_START(e2))
     p2tr_exception_programmatic ("The end-point of the first edge isn't"
         " the end-point of the second edge!");
 
-  gdouble result = G_PI - e1->angle + e2->angle;
+  result = G_PI - e1->angle + e2->angle;
   if (result > 2 * G_PI)
       result -= 2 * G_PI;
+
   return result;
 }

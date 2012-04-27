@@ -1,6 +1,7 @@
 #include <glib.h>
 #include "point.h"
 #include "edge.h"
+#include "mesh.h"
 
 P2trPoint*
 p2tr_point_new (const P2trVector2 *c)

@@ -254,7 +254,7 @@ void p2t_triangle_debug_print (P2tTriangle* THIS);
 
 gint p2t_point_cmp (gconstpointer a, gconstpointer b);
 
-//  gboolean operator == (const Point& a, const Point& b);
+/*  gboolean operator == (const Point& a, const Point& b); */
 gboolean p2t_point_equals (const P2tPoint* a, const P2tPoint* b);
 
 #endif

@@ -45,7 +45,7 @@
 
 struct CDT_
 {
-  //private:
+  /*private: */
 
   /**
    * Internals

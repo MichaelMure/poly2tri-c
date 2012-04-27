@@ -71,6 +71,8 @@ extern "C"
 #define p2tr_exception_programmatic g_error
 #define p2tr_exception_geometric    g_error
 
+GList*  p2tr_utils_new_reversed_pointer_list (int count, ...);
+
 #ifdef __cplusplus
 }
 #endif

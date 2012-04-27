@@ -27,6 +27,17 @@ P2trEdge*     p2tr_mesh_new_edge        (P2trMesh  *mesh,
                                          P2trPoint *end,
                                          gboolean   constrained);
 
+/**
+ * Return a new edge between the two points if an edge doesn't exist, or
+ * return an existing edge between the two points if there is such one.
+ * THE RETURNED EDGE MUST BE UNREFFED, NO MATTER IF IT'S A NEW EDGE OR
+ * AN EXISTING EDGE!
+ */
+P2trEdge*     p2tr_mesh_new_or_existing_edge (P2trMesh  *self,
+                                              P2trPoint *start,
+                                              P2trPoint *end,
+                                              gboolean   constrained);
+
 P2trTriangle* p2tr_mesh_new_triangle        (P2trMesh *mesh,
                                              P2trEdge *AB,
                                              P2trEdge *BC,

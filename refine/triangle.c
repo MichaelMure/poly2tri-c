@@ -1,10 +1,13 @@
 #include <math.h>
 #include <glib.h>
+
+#include "utils.h"
+#include "math.h"
+
 #include "point.h"
 #include "edge.h"
 #include "triangle.h"
-#include "utils.h"
-#include "math.h"
+#include "mesh.h"
 
 P2trTriangle*
 p2tr_triangle_new (P2trEdge *AB,
@@ -180,7 +183,6 @@ gdouble
 p2tr_triangle_smallest_non_constrained_angle (P2trTriangle *self)
 {
     gdouble result = G_MAXDOUBLE, angle;
-    gint i;
     
     if (! self->edges[0]->constrained || !self->edges[1]->constrained)
       {
@@ -207,50 +209,20 @@ void
 p2tr_triangle_get_circum_circle (P2trTriangle *self,
                                  P2trCircle   *circle)
 {
-  //       | Ax Bx Cx |
-  // D = + | Ay By Cy | * 2
-  //       | +1 +1 +1 |
-  //
-  //       | Asq Bsq Csq |
-  // X = + | Ay  By  Cy  | / D
-  //       | 1   1   1   |
-  //
-  //       | Asq Bsq Csq |
-  // Y = - | Ax  Bx  Cx  | / D
-  //       | 1   1   1   |
-  P2trPoint *A = self->edges[0]->end;
-  P2trPoint *B = self->edges[1]->end;
-  P2trPoint *C = self->edges[2]->end;
-
-  gdouble Asq = P2TR_VECTOR2_LEN_SQ (&A->c);
-  gdouble Bsq = P2TR_VECTOR2_LEN_SQ (&B->c);
-  gdouble Csq = P2TR_VECTOR2_LEN_SQ (&C->c);
-
-  gdouble invD = 1 / (2 * p2tr_matrix_det3 (
-      A->c.x, B->c.x, C->c.x,
-      A->c.y, B->c.y, C->c.y,
-      1,      1,      1));
-
-  circle->center.x = + p2tr_matrix_det3 (
-      Asq,    Bsq,    Csq,
-      A->c.y, B->c.y, C->c.y,
-      1,      1,      1) * invD;
-
-  circle->center.y = - p2tr_matrix_det3 (
-      Asq,    Bsq,    Csq,
-      A->c.x, B->c.x, C->c.x,
-      1,      1,      1) * invD;
-
-  circle->radius = sqrt (P2TR_VECTOR2_DISTANCE_SQ (&A->c, &circle->center));
+  p2tr_math_triangle_circumcircle (
+      &self->edges[0]->end->c,
+      &self->edges[1]->end->c,
+      &self->edges[2]->end->c,
+      circle);
 }
 
 P2trInCircle
 p2tr_triangle_circumcircle_contains_point (P2trTriangle *self,
                                            P2trVector2  *pt)
 {
-  return p2tr_math_orient2d (
-      &self->edges[0]->end.c,
-      &self->edges[1]->end.c,
-      &self->edges[2]->end.c,
+  return p2tr_math_incircle (
+      &self->edges[0]->end->c,
+      &self->edges[1]->end->c,
+      &self->edges[2]->end->c,
       pt);
 }

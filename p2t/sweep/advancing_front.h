@@ -35,7 +35,7 @@
 #include "../common/poly2tri-private.h"
 #include "../common/shapes.h"
 
-// Advancing front node
+/* Advancing front node */
 
 struct _P2tNode
 {
@@ -55,11 +55,11 @@ P2tNode* p2t_node_new_pt_tr (P2tPoint* p, P2tTriangle* t);
 void p2t_node_destroy (P2tNode* THIS);
 void p2t_node_free (P2tNode* THIS);
 
-// Advancing front
+/* Advancing front */
 
 struct AdvancingFront_
 {
-  //private:
+  /* private: */
 
   P2tNode* head_, *tail_, *search_node_;
 
@@ -78,7 +78,7 @@ void p2t_advancingfront_set_tail (P2tAdvancingFront *THIS, P2tNode* node);
 P2tNode* p2t_advancingfront_search (P2tAdvancingFront *THIS);
 void p2t_advancingfront_set_search (P2tAdvancingFront *THIS, P2tNode* node);
 
-/// Locate insertion point along advancing front
+/** Locate insertion point along advancing front */
 P2tNode* p2t_advancingfront_locate_node (P2tAdvancingFront *THIS, const double x);
 
 P2tNode* p2t_advancingfront_locate_point (P2tAdvancingFront *THIS, const P2tPoint* point);
