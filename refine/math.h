@@ -83,4 +83,11 @@ P2trInCircle p2tr_math_incircle (const P2trVector2 *A,
                                  const P2trVector2 *C,
                                  const P2trVector2 *D);
 
+gboolean  p2tr_math_diametral_circle_contains (const P2trVector2 *X,
+                                               const P2trVector2 *Y,
+                                               const P2trVector2 *W);
+
+gboolean  p2tr_math_diametral_lens_contains   (const P2trVector2 *X,
+                                               const P2trVector2 *Y,
+                                               const P2trVector2 *W);
 #endif
