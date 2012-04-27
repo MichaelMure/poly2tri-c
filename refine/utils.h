@@ -57,6 +57,7 @@ extern "C"
 #define p2tr_hash_set_remove(set,element) g_hash_table_remove ((set), (element))
 #define p2tr_hash_set_remove_all(set) g_hash_table_remove_all ((set))
 #define p2tr_hash_set_free(set) g_hash_table_destroy(set)
+#define p2tr_hash_set_size(set) g_hash_table_size(set)
 
 #define p2tr_hash_set_iter_init(iter,hash_set) g_hash_table_iter_init ((iter),(hash_set))
 #define p2tr_hash_set_iter_next(iter,val) g_hash_table_iter_next ((iter),(val),NULL)
