@@ -6,10 +6,7 @@
 #include "triangle.h"
 
 #include "cdt.h"
-
-static gboolean  p2tr_cdt_visible_from_edge       (P2trCDT     *self,
-                                                   P2trEdge    *e,
-                                                   P2trVector2 *p);
+#include "visibility.h"
 
 static gboolean  p2tr_cdt_visible_from_tri        (P2trCDT      *self,
                                                    P2trTriangle *tri,
@@ -217,12 +214,18 @@ p2tr_cdt_validate_cdt (P2trCDT *self)
 
 P2trPoint*
 p2tr_cdt_insert_point (P2trCDT           *self,
-                       const P2trVector2 *pc)
+                       const P2trVector2 *pc,
+                       P2trTriangle      *point_location_guess)
 {
-  P2trTriangle *tri = p2tr_triangulation_rough_find_point (self, pc);
+  P2trTriangle *tri;
   P2trPoint    *pt;
   gboolean      inserted = FALSE;
   gint          i;
+
+  if (point_location_guess == NULL)
+    tri = p2tr_mesh_find_point (self->mesh, pc);
+  else
+    tri = p2tr_mesh_find_point2 (self->mesh, pc, point_location_guess);
 
   if (tri == NULL)
     p2tr_exception_geometric ("Tried to add point outside of domain!");

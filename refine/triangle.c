@@ -217,10 +217,21 @@ p2tr_triangle_get_circum_circle (P2trTriangle *self,
 }
 
 P2trInCircle
-p2tr_triangle_circumcircle_contains_point (P2trTriangle *self,
-                                           P2trVector2  *pt)
+p2tr_triangle_circumcircle_contains_point (P2trTriangle      *self,
+                                           const P2trVector2  *pt)
 {
   return p2tr_math_incircle (
+      &self->edges[0]->end->c,
+      &self->edges[1]->end->c,
+      &self->edges[2]->end->c,
+      pt);
+}
+
+P2trInTriangle
+p2tr_triangle_contains_point  (P2trTriangle      *self,
+                               const P2trVector2 *pt)
+{
+  return p2tr_math_intriangle (
       &self->edges[0]->end->c,
       &self->edges[1]->end->c,
       &self->edges[2]->end->c,

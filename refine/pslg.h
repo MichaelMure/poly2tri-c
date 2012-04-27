@@ -34,8 +34,8 @@ void      p2tr_pslg_add_new_line      (P2trPSLG          *pslg,
  * @param[in] pslg The PSLG
  * @param[in] line The existing line to add
  */
-void      p2tr_pslg_add_existing_line (P2trPSLG        *pslg,
-                                       P2trBoundedLine *line);
+void      p2tr_pslg_add_existing_line (P2trPSLG              *pslg,
+                                       const P2trBoundedLine *line);
 
 /**
  * Count how many lines are there in the PSLG

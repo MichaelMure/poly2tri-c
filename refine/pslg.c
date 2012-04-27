@@ -32,10 +32,10 @@ p2tr_pslg_add_new_line (P2trPSLG          *pslg,
 
 /* Add a line that needs not to be freed */
 void
-p2tr_pslg_add_existing_line (P2trPSLG        *pslg,
-                             P2trBoundedLine *line)
+p2tr_pslg_add_existing_line (P2trPSLG              *pslg,
+                             const P2trBoundedLine *line)
 {
-  g_hash_table_insert (pslg, line, NULL);
+  g_hash_table_insert (pslg, (P2trBoundedLine*) line, NULL);
 }
 
 guint

@@ -60,4 +60,14 @@ void          p2tr_mesh_unref           (P2trMesh *mesh);
 
 void          p2tr_mesh_ref             (P2trMesh *mesh);
 
+P2trTriangle* p2tr_mesh_find_point      (P2trMesh *self,
+                                         const P2trVector2 *pt);
+
+/** This function assumes the mesh is composed entirely of one
+ *  continuous region */
+P2trTriangle* p2tr_mesh_find_point2     (P2trMesh *self,
+                                         const P2trVector2 *pt,
+                                         P2trTriangle *initial_guess);
+
+
 #endif

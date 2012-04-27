@@ -22,7 +22,8 @@ void        p2tr_cdt_validate_edges    (P2trCDT *self);
 void        p2tr_cdt_validate_cdt            (P2trCDT *self);
 
 P2trPoint*  p2tr_cdt_insert_point (P2trCDT           *self,
-                                   const P2trVector2 *pc);
+                                   const P2trVector2 *pc,
+                                   P2trTriangle      *point_location_guess);
 
 void        p2tr_cdt_insert_point_into_triangle (P2trCDT      *self,
                                                  P2trPoint    *pt,
