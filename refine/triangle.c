@@ -50,9 +50,9 @@ p2tr_triangle_new (P2trEdge *AB,
     }
 
 #ifdef P2TC_DEBUG_CHECKS
-  if (p2tr_math_orient2d (&self->edges[0]->end.c,
-                          &self->edges[1]->end.c,
-                          &self->edges[2]->end.c) != P2TR_ORIENTATION_CW)
+  if (p2tr_math_orient2d (&P2TR_TRIANGLE_GET_POINT(self,0)->c,
+                          &P2TR_TRIANGLE_GET_POINT(self,1)->c,
+                          &P2TR_TRIANGLE_GET_POINT(self,2)->c) != P2TR_ORIENTATION_CW)
     {
       p2tr_exception_programmatic ("Bad ordering!");
     }
@@ -210,9 +210,9 @@ p2tr_triangle_get_circum_circle (P2trTriangle *self,
                                  P2trCircle   *circle)
 {
   p2tr_math_triangle_circumcircle (
-      &self->edges[0]->end->c,
-      &self->edges[1]->end->c,
-      &self->edges[2]->end->c,
+      &P2TR_TRIANGLE_GET_POINT(self,0)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,1)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,2)->c,
       circle);
 }
 
@@ -221,9 +221,9 @@ p2tr_triangle_circumcircle_contains_point (P2trTriangle      *self,
                                            const P2trVector2  *pt)
 {
   return p2tr_math_incircle (
-      &self->edges[0]->end->c,
-      &self->edges[1]->end->c,
-      &self->edges[2]->end->c,
+      &P2TR_TRIANGLE_GET_POINT(self,0)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,1)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,2)->c,
       pt);
 }
 
@@ -232,8 +232,21 @@ p2tr_triangle_contains_point  (P2trTriangle      *self,
                                const P2trVector2 *pt)
 {
   return p2tr_math_intriangle (
-      &self->edges[0]->end->c,
-      &self->edges[1]->end->c,
-      &self->edges[2]->end->c,
+      &P2TR_TRIANGLE_GET_POINT(self,0)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,1)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,2)->c,
       pt);
+}
+
+P2trInTriangle
+p2tr_triangle_contains_point2 (P2trTriangle      *self,
+                               const P2trVector2 *pt,
+                               gdouble           *u,
+                               gdouble           *v)
+{
+  return p2tr_math_intriangle2 (
+      &P2TR_TRIANGLE_GET_POINT(self,0)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,1)->c,
+      &P2TR_TRIANGLE_GET_POINT(self,2)->c,
+      pt, u, v);
 }

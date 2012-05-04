@@ -225,7 +225,7 @@ p2tr_cdt_insert_point (P2trCDT           *self,
   if (point_location_guess == NULL)
     tri = p2tr_mesh_find_point (self->mesh, pc);
   else
-    tri = p2tr_mesh_find_point2 (self->mesh, pc, point_location_guess);
+    tri = p2tr_mesh_find_point_local (self->mesh, pc, point_location_guess);
 
   if (tri == NULL)
     p2tr_exception_geometric ("Tried to add point outside of domain!");

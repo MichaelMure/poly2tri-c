@@ -63,11 +63,41 @@ void          p2tr_mesh_ref             (P2trMesh *mesh);
 P2trTriangle* p2tr_mesh_find_point      (P2trMesh *self,
                                          const P2trVector2 *pt);
 
-/** This function assumes the mesh is composed entirely of one
- *  continuous region */
-P2trTriangle* p2tr_mesh_find_point2     (P2trMesh *self,
+P2trTriangle* p2tr_mesh_find_point2     (P2trMesh          *self,
                                          const P2trVector2 *pt,
-                                         P2trTriangle *initial_guess);
+                                         gdouble           *u,
+                                         gdouble           *v);
 
+/** This function assumes the mesh is composed entirely of one
+ *  continuous region. The region may have holes, but eventually every
+ *  triangle should be accessible from any other triangle by going
+ *  through a chain of neigbor triangles
+ * @param[in] self The mesh to search
+ * @param[in] pt The point to find
+ * @param[in] initial_guess An initial guess for which triangle contains
+ *            the point or is at least near it
+ * @return The triangle containing the point, or NULL if it's outside
+ *         the triangulation domain
+ */
+P2trTriangle* p2tr_mesh_find_point_local (P2trMesh *self,
+                                          const P2trVector2 *pt,
+                                          P2trTriangle *initial_guess);
+
+/** Same as @ref p2tr_mesh_find_point_local but also returns the u and v
+ * coordinates of the given point inside the triangle
+ * @param[in] self The mesh to search
+ * @param[in] pt The point to find
+ * @param[in] initial_guess An initial guess for which triangle contains
+ *            the point or is at least near it
+ * @param[out] u The u coordinate of the point inside the returned triangle
+ * @param[out] v The v coordinate of the point inside the returned triangle
+ * @return The triangle containing the point, or NULL if it's outside
+ *         the triangulation domain
+ */
+P2trTriangle* p2tr_mesh_find_point_local2 (P2trMesh *self,
+                                           const P2trVector2 *pt,
+                                           P2trTriangle *initial_guess,
+                                           gdouble *u,
+                                           gdouble *v);
 
 #endif

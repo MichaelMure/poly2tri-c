@@ -138,14 +138,24 @@ p2tr_math_intriangle (const P2trVector2 *A,
                       const P2trVector2 *P)
 {
   gdouble u, v;
+  return p2tr_math_intriangle2 (A, B, C, P, &u, &v);
+}
 
-  p2tr_math_triangle_barcycentric(A, B, C, P, &u, &v);
+P2trInTriangle
+p2tr_math_intriangle2 (const P2trVector2 *A,
+                       const P2trVector2 *B,
+                       const P2trVector2 *C,
+                       const P2trVector2 *P,
+                       gdouble           *u,
+                       gdouble           *v)
+{
+  p2tr_math_triangle_barcycentric (A, B, C, P, u, v);
   
   /* Check if point is in triangle - i.e. whether (u + v) < 1 and both
    * u and v are positive */
-  if ((u >= INTRIANGLE_EPSILON) && (v >= INTRIANGLE_EPSILON) && (u + v < 1 - INTRIANGLE_EPSILON))
+  if ((*u >= INTRIANGLE_EPSILON) && (*v >= INTRIANGLE_EPSILON) && (*u + *v < 1 - INTRIANGLE_EPSILON))
     return P2TR_INTRIANGLE_IN;
-  else if ((u >= -INTRIANGLE_EPSILON) && (v >= -INTRIANGLE_EPSILON) && (u + v <= 1 + INTRIANGLE_EPSILON))
+  else if ((*u >= -INTRIANGLE_EPSILON) && (*v >= -INTRIANGLE_EPSILON) && (*u + *v <= 1 + INTRIANGLE_EPSILON))
     return P2TR_INTRIANGLE_ON;
   else
     return P2TR_INTRIANGLE_OUT;

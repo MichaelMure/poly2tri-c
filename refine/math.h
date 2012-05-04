@@ -60,6 +60,13 @@ P2trInTriangle p2tr_math_intriangle (const P2trVector2 *A,
                                      const P2trVector2 *C,
                                      const P2trVector2 *P);
 
+P2trInTriangle p2tr_math_intriangle2 (const P2trVector2 *A,
+                                      const P2trVector2 *B,
+                                      const P2trVector2 *C,
+                                      const P2trVector2 *P,
+                                      gdouble           *u,
+                                      gdouble           *v);
+
 typedef enum
 {
   P2TR_ORIENTATION_CW = -1,

@@ -230,7 +230,7 @@ void p2tr_dt_refine (P2trDelaunayTerminator *self,
           p2tr_triangle_get_circum_circle (t, &tCircum);
           c = &tCircum.center;
 
-          triContaining_c_NOREF = p2tr_mesh_find_point2 (self->mesh->mesh, c, t);
+          triContaining_c_NOREF = p2tr_mesh_find_point_local (self->mesh->mesh, c, t);
 
           /* If no edge is encroached, then this must be
            * inside the triangulation domain!!! */

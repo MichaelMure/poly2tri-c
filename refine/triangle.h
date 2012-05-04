@@ -51,4 +51,11 @@ P2trInCircle p2tr_triangle_circumcircle_contains_point (P2trTriangle       *self
 
 P2trInTriangle p2tr_triangle_contains_point  (P2trTriangle      *self,
                                               const P2trVector2 *pt);
+
+P2trInTriangle p2tr_triangle_contains_point2 (P2trTriangle      *self,
+                                              const P2trVector2 *pt,
+                                              gdouble           *u,
+                                              gdouble           *v);
+
+#define P2TR_TRIANGLE_GET_POINT(tr,index) ((tr)->edges[((index)+3-1)%3]->end)
 #endif

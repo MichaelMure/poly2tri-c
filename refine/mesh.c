@@ -166,20 +166,42 @@ P2trTriangle*
 p2tr_mesh_find_point (P2trMesh *self,
                       const P2trVector2 *pt)
 {
+  gdouble u, v;
+  return p2tr_mesh_find_point2 (self, pt, &u, &v);
+}
+
+P2trTriangle*
+p2tr_mesh_find_point2 (P2trMesh          *self,
+                       const P2trVector2 *pt,
+                       gdouble           *u,
+                       gdouble           *v)
+{
   P2trHashSetIter iter;
   P2trTriangle *result;
   
   p2tr_hash_set_iter_init (&iter, self->triangles);
   while (p2tr_hash_set_iter_next (&iter, (gpointer*)&result))
-    if (p2tr_triangle_contains_point (result, pt) != P2TR_INTRIANGLE_OUT)
+    if (p2tr_triangle_contains_point2 (result, pt, u, v) != P2TR_INTRIANGLE_OUT)
       return result;
 
   return NULL;
 }
 
-P2trTriangle* p2tr_mesh_find_point2     (P2trMesh *self,
-                                         const P2trVector2 *pt,
-                                         P2trTriangle *initial_guess)
+P2trTriangle*
+p2tr_mesh_find_point_local (P2trMesh          *self,
+                            const P2trVector2 *pt,
+                            P2trTriangle      *initial_guess)
+{
+  gdouble u, v;
+  return p2tr_mesh_find_point_local2 (self, pt, initial_guess, &u, &v);
+}
+
+P2trTriangle*
+p2tr_mesh_find_point_local2 (P2trMesh          *self,
+                             const P2trVector2 *pt,
+                             P2trTriangle      *initial_guess,
+                             gdouble           *u,
+                             gdouble           *v)
 {
   P2trHashSet *checked_tris = p2tr_hash_set_new_default ();
   GQueue to_check;
@@ -192,7 +214,7 @@ P2trTriangle* p2tr_mesh_find_point2     (P2trMesh *self,
       P2trTriangle *tri = (P2trTriangle*) g_queue_pop_head (&to_check);
       
       p2tr_hash_set_insert (checked_tris, tri);
-      if (p2tr_triangle_contains_point (tri, pt))
+      if (p2tr_triangle_contains_point2 (tri, pt, u, v))
         {
           result = tri;
           break;
@@ -218,4 +240,3 @@ P2trTriangle* p2tr_mesh_find_point2     (P2trMesh *self,
 
   return result;
 }
-
