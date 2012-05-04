@@ -33,13 +33,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SVG_PLOT_H
-#define	SVG_PLOT_H
-
-#ifdef	__cplusplus
-extern "C"
-{
-#endif
+#ifndef __P2TC_RENDER_SVG_PLOT_H__
+#define __P2TC_RENDER_SVG_PLOT_H__
 
 #include <refine/refine.h>
 
@@ -80,19 +75,14 @@ void
 p2tr_plot_svg_plot_init (FILE* outfile);
 
 void
-p2tr_plot_svg_plot_edge (P2tREdge *self, const gchar* color, FILE* outfile);
+p2tr_plot_svg_plot_edge (P2trEdge *self, const gchar* color, FILE* outfile);
 
 void
-p2tr_plot_svg_plot_triangle (P2tRTriangle *self, const gchar* color, FILE* outfile);
+p2tr_plot_svg_plot_triangle (P2trTriangle *self, const gchar* color, FILE* outfile);
 
 #define r() (10+(rand () % 91))
 
 void
-p2tr_plot_svg (P2tRTriangulation *T, FILE* outfile);
+p2tr_plot_svg (P2trMesh *T, FILE* outfile);
 
-#ifdef	__cplusplus
-}
 #endif
-
-#endif	/* SVG_PLOT_H */
-

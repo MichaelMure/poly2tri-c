@@ -1,17 +1,7 @@
-/* 
- * File:   mesh-render.h
- * Author: Barak
- *
- * Created on 1 אוגוסט 2011, 15:37
- */
+#ifndef __P2TR_RENDER_MESH_RENDER_H__
+#define __P2TR_RENDER_MESH_RENDER_H__
 
-#ifndef MESH_RENDER_H
-#define	MESH_RENDER_H
-
-#ifdef	__cplusplus
-extern "C"
-{
-#endif
+#include <glib.h>
 
 typedef struct {
   /* Minimal X and Y coordinates to start sampling at */
@@ -23,51 +13,43 @@ typedef struct {
   /* The amount of channels per pixel, both in destination buffer and in the
    * colors returned from the matching point-to-color function */
   guint cpp;
-} P2tRImageConfig;
+} P2trImageConfig;
 
-typedef void (*P2tRPointToColorFunc) (P2tRPoint* point, gfloat *dest, gpointer user_data);
+typedef void (*P2trPointToColorFunc) (P2trPoint* point, gfloat *dest, gpointer user_data);
 
 typedef union {
-  P2tRTriangle *tri;
+  P2trTriangle *tri;
   gdouble       u;
   gdouble       v;
-} P2tRuvt;
+} P2truvt;
 
-void p2tr_test_point_to_color (P2tRPoint* point, gfloat *dest, gpointer user_data);
+void p2tr_test_point_to_color (P2trPoint* point, gfloat *dest, gpointer user_data);
 
 void
-p2tr_mesh_render_cache_uvt (P2tRTriangulation    *T,
-                            P2tRuvt              *dest,
-                            P2tRImageConfig      *config);
+p2tr_mesh_render_cache_uvt (P2trMesh    *T,
+                            P2truvt              *dest,
+                            P2trImageConfig      *config);
 
 /* Like the regular version, but cache only the specified amount of
  * pixels */
 void
-p2tr_mesh_render_cache_uvt_exact (P2tRTriangulation    *T,
-                                  P2tRuvt              *dest,
+p2tr_mesh_render_cache_uvt_exact (P2trMesh    *T,
+                                  P2truvt              *dest,
                                   gint                  dest_len,
-                                  P2tRImageConfig      *config);
+                                  P2trImageConfig      *config);
 
 void
-p2tr_mesh_render_scanline (P2tRTriangulation    *T,
+p2tr_mesh_render_scanline (P2trMesh    *T,
                            gfloat               *dest,
-                           P2tRImageConfig      *config,
-                           P2tRPointToColorFunc  pt2col,
+                           P2trImageConfig      *config,
+                           P2trPointToColorFunc  pt2col,
                            gpointer              pt2col_user_data);
 
 void
-p2tr_mesh_render_scanline2 (P2tRuvt              *uvt_cache,
+p2tr_mesh_render_scanline2 (P2truvt              *uvt_cache,
                             gfloat               *dest,
-                            P2tRImageConfig      *config,
-                            P2tRPointToColorFunc  pt2col,
+                            P2trImageConfig      *config,
+                            P2trPointToColorFunc  pt2col,
                             gpointer              pt2col_user_data);
 
-
-
-
-#ifdef	__cplusplus
-}
 #endif
-
-#endif	/* MESH_RENDER_H */
-
