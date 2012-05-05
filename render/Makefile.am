@@ -1,3 +1,3 @@
-lib_LIBRARIES = libp2t-c-render.a
+lib_LTLIBRARIES = libp2tc-render.la
 
-libp2t_c_render_a_SOURCES = mesh-render.c mesh-render.h svg-plot.c svg-plot.h
+libp2tc_render_la_SOURCES = mesh-render.c mesh-render.h svg-plot.c svg-plot.h

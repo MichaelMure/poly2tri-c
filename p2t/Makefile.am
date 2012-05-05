@@ -1,5 +1,6 @@
 SUBDIRS = sweep common
-lib_LIBRARIES = libp2t-c.a
 
-libp2t_c_a_LIBADD = common/libp2tcommon.a sweep/libp2tsweep.a
-libp2t_c_a_SOURCES =
+lib_LTLIBRARIES = libp2tc.la
+
+libp2tc_la_LIBADD = common/libp2tc-common.la sweep/libp2tc-sweep.la
+libp2tc_la_SOURCES =
