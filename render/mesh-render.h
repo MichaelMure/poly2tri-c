@@ -52,4 +52,9 @@ p2tr_mesh_render_scanline2 (P2truvt              *uvt_cache,
                             P2trPointToColorFunc  pt2col,
                             gpointer              pt2col_user_data);
 
+void
+p2tr_write_ppm (FILE            *f,
+                gfloat          *dest,
+                P2trImageConfig *config);
+
 #endif

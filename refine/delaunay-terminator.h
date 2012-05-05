@@ -27,7 +27,12 @@ P2trHashSet*  p2tr_cdt_get_segments_encroached_by (P2trCDT     *self,
 
 gboolean      p2tr_cdt_is_encroached (P2trEdge *E);
 
+gboolean     p2tr_dt_false_too_big (P2trTriangle *tri);
+
 P2trDelaunayTerminator*
 p2tr_dt_new (gdouble theta, P2trTriangleTooBig delta, P2trCDT *cdt);
+
+void p2tr_dt_refine (P2trDelaunayTerminator *self,
+                     gint                    max_steps);
 
 #endif

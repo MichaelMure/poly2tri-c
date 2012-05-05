@@ -189,14 +189,15 @@ p2tr_dt_segment_queue_is_empty (P2trDelaunayTerminator *self)
   return g_queue_is_empty (&self->Qs);
 }
 
-static gboolean
-false_too_big (P2trTriangle *tri)
+gboolean
+p2tr_dt_false_too_big (P2trTriangle *tri)
 {
   return FALSE;
 }
 
-void p2tr_dt_refine (P2trDelaunayTerminator *self,
-                     gint                    max_steps)
+void
+p2tr_dt_refine (P2trDelaunayTerminator *self,
+                gint                    max_steps)
 {
   P2trHashSetIter hs_iter;
   P2trEdge *s;
@@ -208,7 +209,7 @@ void p2tr_dt_refine (P2trDelaunayTerminator *self,
     if (s->constrained && p2tr_cdt_is_encroached (s))
       p2tr_dt_enqueue_segment (self, s);
 
-  SplitEncroachedSubsegments (self, 0, false_too_big);
+  SplitEncroachedSubsegments (self, 0, p2tr_dt_false_too_big);
 
   p2tr_hash_set_iter_init (&hs_iter, self->mesh->mesh->triangles);
   while (p2tr_hash_set_iter_next (&hs_iter, (gpointer*)&t))

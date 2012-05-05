@@ -35,10 +35,8 @@
 
 #include <p2t/poly2tri.h>
 
-#include <refine/triangulation.h>
-#include <render/svg-plot.h>
 #include <refine/refine.h>
-
+#include <render/svg-plot.h>
 #include <render/mesh-render.h>
 
 #include <string.h>
@@ -74,9 +72,9 @@ typedef gfloat Point2f[2];
  *
  */
 void
-read_points_file (const gchar  *path,
-                  GPtrArray   **points,
-                  GArray      **colors)
+read_points_file (const gchar       *path,
+                  P2tPointPtrArray  *points,
+                  GArray           **colors)
 {
   FILE *f = fopen (path, "r");
   gint countPts = 0, countCls = 0;
@@ -117,7 +115,7 @@ read_points_file (const gchar  *path,
 
           if (points != NULL)
             {
-              g_ptr_array_add (*points, p2tr_point_new (ptc[0], ptc[1]));
+              g_ptr_array_add (*points, p2t_point_new (ptc[0], ptc[1]));
               countPts++;
             }
         }
@@ -174,9 +172,10 @@ gint main (int argc, char *argv[])
   GPtrArray *pts;
   GArray    *colors;
 
-  P2tRTriangulation *T;
+  P2tCDT *cdt;
+  P2trCDT *rcdt;
+  P2trDelaunayTerminator *dt;
 
-  gint i;
   gchar buf[P2TC_MAX_PATH+1];
   gfloat *im;
 
@@ -217,9 +216,14 @@ gint main (int argc, char *argv[])
 
   read_points_file (input_file, &pts, &colors);
 
-  T = p2tr_triangulate_and_refine (pts, refine_max_steps);
+  cdt = p2t_cdt_new (pts);
+  rcdt = p2tr_cdt_new (cdt);
+  p2t_cdt_free (cdt);
+  
+  dt = p2tr_dt_new (G_PI / 6, p2tr_dt_false_too_big, rcdt);
+  p2tr_dt_refine (dt, refine_max_steps);
 
-  p2tr_plot_svg (T,out);
+  p2tr_plot_svg (dt->mesh->mesh,out);
 
   fclose (out);
 
@@ -231,7 +235,7 @@ gint main (int argc, char *argv[])
       exit (1);
     }
 
-  P2tRImageConfig imc;
+  P2trImageConfig imc;
   
   imc.cpp = 4;
   imc.min_x = imc.min_y = 0;
@@ -240,21 +244,22 @@ gint main (int argc, char *argv[])
 
   im = g_new (gfloat, imc.cpp * imc.x_samples * imc.y_samples);
 
-  p2tr_mesh_render_scanline (T, im, &imc, p2tr_test_point_to_color, NULL);
+  p2tr_mesh_render_scanline (dt->mesh->mesh, im, &imc, p2tr_test_point_to_color, NULL);
 
   p2tr_write_ppm (out, im, &imc);
   fclose (out);
 
   g_free (im);
 
-  p2tr_triangulation_free (T);
+  // p2tr_triangulation_free (T);
 
-  for (i = 0; i < pts->len; i++)
-    {
-      p2tr_point_unref ((P2tRPoint*) g_ptr_array_index (pts, i));
-    }
+//  for (i = 0; i < pts->len; i++)
+//    {
+//      p2tr_point_unref ((P2trPoint*) g_ptr_array_index (pts, i));
+//    }
 
   g_ptr_array_free (pts, TRUE);
   g_array_free (colors, TRUE);
   
+  return 0;
 }
