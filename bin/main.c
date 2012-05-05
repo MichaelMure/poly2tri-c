@@ -163,6 +163,21 @@ read_points_file (const gchar       *path,
 #define P2TC_MAX_PATH PATH_MAX
 #endif
 
+/* Calculate a "deterministic random" color for each point
+ * based on its memory address. Since we know that least-significant bytes
+ * of the point address will change more than the mor-important ones, we
+ * make sure to take them into consideration in all the color channels.
+ */
+static void
+test_point_to_color (P2trPoint* point, gfloat *dest, gpointer user_data)
+{
+  gulong value = (gulong) point;
+  guchar b1 = value & 0xff, b2 = (value & 0xff00) >> 2, b3 = (value & 0xff0000) >> 4;
+  dest[0] = b1 / 255.0f;
+  dest[1] = (b1 ^ b2) / 255.0f;
+  dest[2] = (b1 ^ b2 ^ b3) / 255.0f;
+}
+
 gint main (int argc, char *argv[])
 {
   FILE *out;
@@ -244,7 +259,7 @@ gint main (int argc, char *argv[])
 
   im = g_new (gfloat, imc.cpp * imc.x_samples * imc.y_samples);
 
-  p2tr_mesh_render_scanline (dt->mesh->mesh, im, &imc, p2tr_test_point_to_color, NULL);
+  p2tr_mesh_render_scanline (dt->mesh->mesh, im, &imc, test_point_to_color, NULL);
 
   p2tr_write_ppm (out, im, &imc);
   fclose (out);

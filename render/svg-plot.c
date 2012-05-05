@@ -119,7 +119,7 @@ void
 p2tr_plot_svg_plot_triangle (P2trTriangle *self, const gchar* color, FILE* outfile)
 {
   P2trCircle c;
-  p2tr_triangle_circumcircle (self, &c);
+  p2tr_triangle_get_circum_circle (self, &c);
   p2tr_plot_svg_plot_edge (self->edges[0], color, outfile);
   p2tr_plot_svg_plot_edge (self->edges[1], color, outfile);
   p2tr_plot_svg_plot_edge (self->edges[2], color, outfile);
@@ -135,7 +135,7 @@ p2tr_plot_svg (P2trMesh *T, FILE *outfile)
   P2trHashSetIter  siter;
   P2trTriangle    *tr;
 
-  p2tr_debug ("Starting to write SVG output\n");
+  g_debug ("Starting to write SVG output\n");
   p2tr_plot_svg_plot_init (outfile);
 
   p2tr_hash_set_iter_init (&siter, T->triangles);
@@ -143,5 +143,5 @@ p2tr_plot_svg (P2trMesh *T, FILE *outfile)
     p2tr_plot_svg_plot_triangle (tr, "black", outfile);
 
   p2tr_plot_svg_plot_end (outfile);
-  p2tr_debug ("Finished writing SVG output\n");
+  g_debug ("Finished writing SVG output\n");
 }
