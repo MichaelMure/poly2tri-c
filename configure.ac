@@ -5,12 +5,21 @@ AC_INIT([poly2tri-c], [0.9], [lightningismyname@gmail.com])
 AC_CONFIG_AUX_DIR([build-aux])
 
 # Tell autoconf where to look for macros
-AC_CONFIG_MACRO_DIR([m4macros])
+AC_CONFIG_MACRO_DIR([m4])
 
 # Initialize Automake with the following settings:
 # Relax some of the GNU requirements
 # Report all potential warnings and report all warnings as errors
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+
+# Enable silent rules is available
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
+# Define maintainer mode
+AM_MAINTAINER_MODE
+
+# Locate archiver
+AM_PROG_AR
 
 # Initialize libtool
 LT_INIT
