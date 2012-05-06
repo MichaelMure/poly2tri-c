@@ -14,8 +14,10 @@ doxygen-doc
 /config.cache
 /config.h
 /config.h.in
+/config.h.in~
 /config.log
 /config.status
 /configure
+/doc
 /libtool
 /stamp-h1
